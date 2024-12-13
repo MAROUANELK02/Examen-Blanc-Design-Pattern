@@ -1,5 +1,7 @@
 package com.marouaneLasmak.interfaces;
 
+import com.marouaneLasmak.implementation.Transaction;
+
 public interface Strategy {
-    public void operationStrategy();
+    void operationStrategy(Transaction transaction);
 }

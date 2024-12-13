@@ -2,6 +2,7 @@ package com.marouaneLasmak.implementation;
 
 import com.marouaneLasmak.interfaces.Observable;
 import com.marouaneLasmak.interfaces.Observer;
+import com.marouaneLasmak.interfaces.Strategy;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -13,6 +14,8 @@ public class Agent implements Observer, Observable {
     private LocalDateTime dateTime;
     private List<Transaction> transactions = new ArrayList<>();
     private List<Observer> observers = new ArrayList<>();
+    private Strategy strategy;
+    private double balance;
 
     @Override
     public void addObserver(Observer observer) {
@@ -32,6 +35,22 @@ public class Agent implements Observer, Observable {
     @Override
     public void update(String name, Transaction transaction) {
         System.out.println("Agent " + name + " sending notification to " + this.name);
+        strategy.operationStrategy(transaction);
+    }
+
+    public void addTransaction(Transaction transaction) {
+        transactions.add(transaction);
+        notifyObservers(transaction);
+    }
+
+    public void showTransactions() {
+        transactions.forEach(System.out::println);
+    }
+
+    public Transaction maxTransactionAmount() {
+        return transactions.stream()
+                .max((t1, t2) -> (int) (t1.getAmount() - t2.getAmount()))
+                .orElse(null);
     }
 
     public String getId() {
@@ -56,5 +75,21 @@ public class Agent implements Observer, Observable {
 
     public String getName() {
         return name;
+    }
+
+    public Strategy getStrategy() {
+        return strategy;
+    }
+
+    public void setStrategy(Strategy strategy) {
+        this.strategy = strategy;
+    }
+
+    public double getBalance() {
+        return balance;
+    }
+
+    public void setBalance(double balance) {
+        this.balance = balance;
     }
 }

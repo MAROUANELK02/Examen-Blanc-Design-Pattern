@@ -56,4 +56,19 @@ public class Transaction {
                 '}';
     }
 
+    public double getAmount() {
+        return amount;
+    }
+
+    public TransactionType getType() {
+        return type;
+    }
+
+    public LocalDateTime getDate() {
+        return date;
+    }
+
+    public String getId() {
+        return id;
+    }
 }
