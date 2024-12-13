@@ -19,7 +19,7 @@ public class LogAspect {
         long t1 = System.currentTimeMillis();
         Object result = proceedingJoinPoint.proceed();
         long t2 = System.currentTimeMillis();
-        logger.info("Duration :"+(t2-t1));
+        System.out.println("Duration :"+(t2-t1));
         return result;
     }
 }

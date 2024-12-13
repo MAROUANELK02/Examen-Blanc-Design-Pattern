@@ -34,11 +34,11 @@ public class Container {
 
     public void showAgents() {
         StringBuilder sb = new StringBuilder();
-        agents.forEach((key, value) -> sb.append(key).append(" : ").append(value).append("\n"));
+        agents.forEach((key, value) -> sb.append(key).append(" : ").append(value.toString()).append("\n"));
         if (display != null) {
             display.display(sb.toString());
         } else {
-            System.out.println(sb.toString());
+            System.out.println(sb);
         }
     }
 }

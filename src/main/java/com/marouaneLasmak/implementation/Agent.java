@@ -1,5 +1,7 @@
 package com.marouaneLasmak.implementation;
 
+import com.marouaneLasmak.aop.Cachable;
+import com.marouaneLasmak.aop.Log;
 import com.marouaneLasmak.interfaces.Observable;
 import com.marouaneLasmak.interfaces.Observer;
 import com.marouaneLasmak.interfaces.Strategy;
@@ -7,6 +9,7 @@ import com.marouaneLasmak.interfaces.Strategy;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class Agent implements Observer, Observable {
     private String id;
@@ -16,6 +19,16 @@ public class Agent implements Observer, Observable {
     private List<Observer> observers = new ArrayList<>();
     private Strategy strategy;
     private double balance;
+
+    public Agent() {
+    }
+
+    public Agent(String name, Strategy strategy) {
+        this.name = name;
+        this.strategy = strategy;
+        id = UUID.randomUUID().toString();
+        dateTime = LocalDateTime.now();
+    }
 
     @Override
     public void addObserver(Observer observer) {
@@ -38,6 +51,7 @@ public class Agent implements Observer, Observable {
         strategy.operationStrategy(transaction);
     }
 
+    @Cachable
     public void addTransaction(Transaction transaction) {
         transactions.add(transaction);
         notifyObservers(transaction);
@@ -47,10 +61,23 @@ public class Agent implements Observer, Observable {
         transactions.forEach(System.out::println);
     }
 
+    @Cachable
+    @Log
     public Transaction maxTransactionAmount() {
         return transactions.stream()
                 .max((t1, t2) -> (int) (t1.getAmount() - t2.getAmount()))
                 .orElse(null);
+    }
+
+    @Override
+    public String toString() {
+        return "Agent{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", dateTime=" + dateTime +
+                ", transactions=" + transactions +
+                ", balance=" + balance +
+                '}';
     }
 
     public String getId() {

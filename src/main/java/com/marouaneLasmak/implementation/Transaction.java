@@ -8,14 +8,14 @@ public class Transaction {
     private double amount;
     private TransactionType type;
 
-    public Transaction(Builder builder) {
+    private Transaction(Builder builder) {
         this.id = builder.id;
         this.date = builder.date;
         this.amount = builder.amount;
         this.type = builder.type;
     }
 
-    public class Builder {
+    public static class Builder {
         private String id;
         private LocalDateTime date;
         private double amount;
